@@ -17,7 +17,7 @@ metadata:
   name: {{ template "am-single-node.resource.prefix" . }}-am-deployment
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: Recreate
   selector:
@@ -119,22 +119,12 @@ spec:
     ### Ad sidecar here
         - name: filebeat
           image: docker.elastic.co/beats/filebeat:7.17.3
-          # command: ["chmod go-w /home/filebeat/filebeat.yml"]
-          args: ["-c", "/home/filebeat/filebeat.yml", "-e"]
-          # command: ["sysctl", "-w", "vm.max_map_count=262144"]
-          # imagePullPolicy: "{{ .Values.imagePullPolicy }}"
-          # resources:
-          #     requests:
-          #       cpu: "100m"
-          #       memory: "100Mi"
-          #     limits:
-          #       cpu: "1000m"
-          #       memory: "200Mi"
+          # args: ["-c", "/usr/share/filebeat/filebeat.yml", "-e"]
           volumeMounts:
           - name: wso2am-metrics
             mountPath: /home/wso2carbon/wso2am-4.1.0.47/repository/logs
           - name: config-volume
-            mountPath: /home/filebeat/filebeat.yml
+            mountPath: /usr/share/filebeat/filebeat.yml
             subPath: filebeat.yml
             readOnly: true
       serviceAccountName: {{ .Values.kubernetes.serviceAccount }}
@@ -168,7 +158,3 @@ spec:
         - name: config-volume
           configMap:
             name: filebeat-config
-            # items:
-            #   - key: filebeat.yml
-            #     path: filebeat.yml
-  

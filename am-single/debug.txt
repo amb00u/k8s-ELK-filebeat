@@ -1,0 +1,5 @@
+kubectl describe pod wso2am-single-node-am-deployment-5ff6786d98-c7zqg container filebeat
+
+kubectl logs wso2am-single-node-am-deployment-84fc5cb98d-j4kh5 -c filebeat
+
+kubectl get events -w
