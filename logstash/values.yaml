@@ -10,7 +10,7 @@ logstashConfig:
  logstash.yml: |
   http.host: "0.0.0.0"
   xpack.monitoring.enabled: true
-  xpack.monitoring.elasticsearch.hosts: [ "http://10.16.8.68:9200" ]
+  xpack.monitoring.elasticsearch.hosts: [ "https://elastic.grash-cmms.com:443" ]
   pipeline.ecs_compatibility: disabled
 #  log4j2.properties: |
 #    key = value
@@ -35,14 +35,14 @@ logstashPipeline:
     output {
         if [apimMetrics] == " apim:response" {
             elasticsearch {
-                hosts => ["http://10.16.8.68:9200/"]
+                hosts => ["https://elastic.grash-cmms.com:443/"]
                 index => "apim_event_response"
                 user => ""
                 password => ""
             }
         } else if [apimMetrics] == " apim:faulty" {
             elasticsearch {
-                hosts => ["http://10.16.8.68:9200/"]
+                hosts => ["https://elastic.grash-cmms.com:443/"]
                 index => "apim_event_faulty"
                 user => ""
                 password => ""
