@@ -299,14 +299,13 @@ service:
       targetPort: 8080
 
 ingress:
-  enabled: false
+  enabled: true
   className: "nginx"
-  annotations:
-    {}
-    # kubernetes.io/tls-acme: "true"
   pathtype: ImplementationSpecific
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: beats.grash-cmms.com
+    - host: digest.grash-cmms.com
       paths:
         - path: /beats
           servicePort: 5044

@@ -245,14 +245,13 @@ tolerations: []
 # Enabling this will publicly expose your Elasticsearch instance.
 # Only enable this if you have security enabled on your cluster
 ingress:
-  enabled: false
-  annotations: {}
-  # kubernetes.io/ingress.class: nginx
-  # kubernetes.io/tls-acme: "true"
+  enabled: true  ## If false, we use cluster-IP
   className: "nginx"
   pathtype: ImplementationSpecific
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: chart-example.local
+    - host: elastic.grash-cmms.com
       paths:
         - path: /
   tls: []

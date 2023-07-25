@@ -3,15 +3,13 @@ kind: ConfigMap
 metadata:
   name: filebeat-config
   namespace:  {{ .Release.Namespace }}
-#   labels:
-#       app: filebeat
 data:
   filebeat.yml: |
     filebeat.inputs:
     - type: log
       enabled: true
       paths:
-        - /home/wso2carbon/wso2am-4.1.0.47/repository/logs/*.log
+        - /home/wso2carbon/wso2am-4.1.0.47/repository/logs/*.log   ## A variabiliser
     include_lines: ['(apimMetrics):']
     output.logstash:
-        hosts: ["10.16.3.113:5044"]
+        hosts: ["digest.grash-cmms.com/beats"]   ### A variabiliser
