@@ -1,0 +1,2 @@
+CONFIGURE SECURITY
+MANAGE WSO2 APIM LOG4JFILE according to the doc while building the image
