@@ -48,6 +48,19 @@ data:
     username = "{{ .Values.wso2.deployment.am.db.apim.username }}"
     password = "{{ .Values.wso2.deployment.am.db.apim.password }}"
     driver = "{{ .Values.wso2.deployment.am.db.driver }}"
+    validationQuery = "SELECT 1"
+    pool_options.maxActive = "300"
+    pool_options.maxWait = "60000"
+    pool_options.minIdle = "5"
+    pool_options.testOnBorrow = true
+    pool_options.validationInterval="30000"
+    pool_options.defaultAutoCommit=false
+    pool_options.jdbcInterceptors = "org.apache.tomcat.jdbc.pool.interceptor.SlowQueryReport(threshold=30)"
+    pool_options.commitOnReturn=true
+    pool_options.rollbackOnReturn=false
+    pool_options.logAbandoned=true
+    pool_options.removeAbandoned=true
+    pool_options.removeAbandonedTimeout="120000"
 
     [database.shared_db]
     type = "{{ .Values.wso2.deployment.am.db.type }}"
@@ -55,6 +68,19 @@ data:
     username = "{{ .Values.wso2.deployment.am.db.apim_shared.username }}"
     password = "{{ .Values.wso2.deployment.am.db.apim_shared.password }}"
     driver = "{{ .Values.wso2.deployment.am.db.driver }}"
+    validationQuery = "SELECT 1"
+    pool_options.maxActive = "300"
+    pool_options.maxWait = "60000"
+    pool_options.minIdle = "5"
+    pool_options.testOnBorrow = true
+    pool_options.validationInterval="30000"
+    pool_options.defaultAutoCommit=false
+    pool_options.jdbcInterceptors = "org.apache.tomcat.jdbc.pool.interceptor.SlowQueryReport(threshold=100)"
+    pool_options.commitOnReturn=true
+    pool_options.rollbackOnReturn=false
+    pool_options.logAbandoned=true
+    pool_options.removeAbandoned=true
+    pool_options.removeAbandonedTimeout="120000"
 
     [keystore.tls]
     file_name =  "wso2carbon.jks"

@@ -30,7 +30,7 @@ wso2:
   deployment:
     dependencies:
       # The configuration should be set to be 'true' if a MySQL database should be spawned as a pod within the cluster
-      cluster_mysql: true
+      cluster_mysql: false
       # Enable NFS dynamic provisioner for Kubernetes
       nfsServerProvisioner: true
 
@@ -67,13 +67,13 @@ wso2:
       # Indicates whether the container is running
       livenessProbe:
         # Number of seconds after the container has started before liveness probes are initiated
-        initialDelaySeconds: 180
+        initialDelaySeconds: 300
         # How often (in seconds) to perform the probe
         periodSeconds: 10
       # Indicates whether the container is ready to service requests
       readinessProbe:
         # Number of seconds after the container has started before readiness probes are initiated
-        initialDelaySeconds: 180
+        initialDelaySeconds: 300
         # How often (in seconds) to perform the probe
         periodSeconds: 10
 
@@ -94,9 +94,9 @@ wso2:
           heap:
             memory:
               # Initial and minimum Heap size
-              xms: "1024m"
+              xms: "2048m" #1024m
               # Maximum Heap size
-              xmx: "1024m"
+              xmx: "2048m"
 
       # If the deployment configurations for the WSO2 API Manager v4.0.0 (<WSO2AM>/repository/conf/deployment.toml),
       # add the customized configuration file under (wso2 -> deployment -> am -> config -> deployment.toml)
@@ -144,27 +144,26 @@ wso2:
             nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
             nginx.ingress.kubernetes.io/use-regex: "true"  ### Added
       db:
-        hostname: wso2am-mysql-db-service
-        port: 3306
-        type: mysql
-        driver: com.mysql.cj.jdbc.Driver
-        driver_url: https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.29/mysql-connector-java-8.0.29.jar
+        hostname: wso2am-postgres-db-service
+        port: 25060
+        type: postgre
+        driver: org.postgresql.Driver
+        driver_url: https://github.com/amb00u/artefacts/releases/download/1.0.0/postgresql-42.4.0.jar
         apim:
-          username: wso2carbon
-          password: wso2carbon
-          url: jdbc:mysql://wso2am-mysql-db-service:3306/WSO2AM_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false
+          username: doadmin
+          password: AVNS_Iz0F5IOUPpK9V84zII3
+          url: jdbc:postgresql://grash-api-db-do-user-12765807-0.b.db.ondigitalocean.com:25060/wso?currentSchema=apim-db
         apim_shared:
-          username: wso2carbon
-          password: wso2carbon
-          url: jdbc:mysql://wso2am-mysql-db-service:3306/WSO2AM_SHARED_DB?useSSL=false&amp;autoReconnect=true&amp;requireSSL=false&amp;verifyServerCertificate=false
-
+          username: doadmin
+          password: AVNS_Iz0F5IOUPpK9V84zII3
+          url: jdbc:postgresql://grash-api-db-do-user-12765807-0.b.db.ondigitalocean.com:25060/wso?currentSchema=shared-db
   
 kubernetes:
   # Name of Kubernetes service account
   serviceAccount: "wso2am-single-node-svc-account"
 
 # Override sub chart parameters
-mysql-am:
-  mysql:
-    persistence:
-      storageClass: *storage_class
+# mysql-am:
+#   mysql:
+#     persistence:
+#       storageClass: *storage_class

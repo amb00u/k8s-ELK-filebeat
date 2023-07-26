@@ -17,7 +17,7 @@ metadata:
   name: {{ template "am-single-node.resource.prefix" . }}-am-deployment
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -33,22 +33,22 @@ spec:
         node: {{ template "am-single-node.resource.prefix" . }}-am
         product: apim
     spec:
-      initContainers:
-        - name: init-db
-          image: busybox:1.32
-          command: ['sh', '-c', 'echo -e "Checking for the availability of DB Server deployment"; while ! nc -z "{{ .Values.wso2.deployment.am.db.hostname }}" {{ .Values.wso2.deployment.am.db.port }}; do sleep 1; printf "-"; done; echo -e "  >> DB Server has started";']
-        - name: init-db-connector-download
-          image: busybox:1.32
-          command:
-            - /bin/sh
-            - "-c"
-            - |
-              set -e
-              connector_version=8.0.17
-              wget "{{ .Values.wso2.deployment.am.db.driver_url }}" -P /db-connector-jar/
-          volumeMounts:
-            - name: db-connector-jar
-              mountPath: /db-connector-jar
+      # initContainers:
+      #   - name: init-db
+      #     image: busybox:1.32
+      #     command: ['sh', '-c', 'echo -e "Checking for the availability of DB Server deployment"; while ! nc -z "{{ .Values.wso2.deployment.am.db.hostname }}" {{ .Values.wso2.deployment.am.db.port }}; do sleep 1; printf "-"; done; echo -e "  >> DB Server has started";']
+      #   - name: init-db-connector-download
+      #     image: busybox:1.32
+      #     command:
+      #       - /bin/sh
+      #       - "-c"
+      #       - |
+      #         set -e
+      #         connector_version=8.0.17
+      #         wget "{{ .Values.wso2.deployment.am.db.driver_url }}" -P /db-connector-jar/
+      #     volumeMounts:
+      #       - name: db-connector-jar
+      #         mountPath: /db-connector-jar
       containers:
         - name: wso2am
 {{- include "image" (dict "Values" .Values "deployment" .Values.wso2.deployment.am) | indent 10 }}
@@ -119,7 +119,6 @@ spec:
     ### Ad sidecar here
         - name: filebeat
           image: docker.elastic.co/beats/filebeat:7.17.3
-          # args: ["-c", "/usr/share/filebeat/filebeat.yml", "-e"]
           volumeMounts:
           - name: wso2am-metrics
             mountPath: /home/wso2carbon/wso2am-4.1.0.47/repository/logs

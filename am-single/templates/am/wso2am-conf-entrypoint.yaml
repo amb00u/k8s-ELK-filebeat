@@ -57,6 +57,10 @@ data:
     # copy any artifact changes mounted to artifact_volume
     test -d ${artifact_volume} && [[ "$(ls -A ${artifact_volume})" ]] && cp -RL ${artifact_volume}/* ${WSO2_SERVER_HOME}/
 
+    # COPY Driver
+    wget https://github.com/amb00u/artefacts/releases/download/1.0.0/postgresql-42.4.0.jar
+    cp ./postgresql-42.4.0.jar ${WSO2_SERVER_HOME}/repository/components/lib/
+
     # start WSO2 Carbon server
     echo "Start WSO2 Carbon server" >&2
     if [[ -z "${PROFILE_NAME}" ]]
